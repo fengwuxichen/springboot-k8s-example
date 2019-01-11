@@ -65,11 +65,11 @@ podTemplate(label: label, cloud: 'kubernetes', containers: [
             }
 
             stage('docker-build') {
-                sh "docker build . -t ${params.REGISTRY_URL}/lusyoe/k8s-example:${shortGitCommit}"
+                sh "docker build . -t ${params.REGISTRY_URL}/${params.DOCKER_USER}/k8s-example:${shortGitCommit}"
             }
 
             stage('docker-push') {
-                sh "docker push ${params.REGISTRY_URL}/lusyoe/k8s-example:${shortGitCommit}"
+                sh "docker push ${params.REGISTRY_URL}/${params.DOCKER_USER}/k8s-example:${shortGitCommit}"
             }
         }
 
