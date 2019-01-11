@@ -5,7 +5,7 @@ def projectProperties = [
         parameters([
             string(name: 'DOCKER_USER', defaultValue: '', description: 'docker用户名'),
             string(name: 'DOCKER_PASSWORD', defaultValue: '', description: 'docker用户密码'),
-            string(name: 'REGISTRY_URL', defaultValue: 'docker.io', description: 'docker仓库地址')
+            string(name: 'REGISTRY_URL', defaultValue: 'daocloud.io', description: 'docker仓库地址')
         ])
 ]
 
@@ -65,18 +65,18 @@ podTemplate(label: label, cloud: 'kubernetes', containers: [
             }
 
             stage('docker-build') {
-                sh "docker build . -t ${params.REGISTRY_URL}/${params.DOCKER_USER}/k8s-example:${shortGitCommit}"
+                sh "docker build . -t ${params.REGISTRY_URL}/shimx/k8s-example:${shortGitCommit}"
             }
 
             stage('docker-push') {
-                sh "docker push ${params.REGISTRY_URL}/${params.DOCKER_USER}/k8s-example:${shortGitCommit}"
+                sh "docker push ${params.REGISTRY_URL}/shimx/k8s-example:${shortGitCommit}"
             }
         }
 
 
         container('kubectl') {
             stage('k8s deploy') {
-                sh "sed -i \"s/shimingxing\\/k8s-example/${params.REGISTRY_URL}\\/shimingxing\\/k8s-example:${shortGitCommit}/g\" k8s-example.yaml"
+                sh "sed -i \"s/shimx\\/k8s-example/${params.REGISTRY_URL}\\/shimx\\/k8s-example:${shortGitCommit}/g\" k8s-example.yaml"
                 sh "kubectl --kubeconfig=/root/.kube/config apply -f k8s-example.yaml"
             }
         }
