@@ -79,7 +79,7 @@ podTemplate(label: label, cloud: 'kubernetes', containers: [
                 sh "sed -i \"s/shimx\\/k8s-example/${params.REGISTRY_URL}\\/shimx\\/k8s-example:${shortGitCommit}/g\" k8s-example.yaml"
                 sh "kubectl --kubeconfig=/root/.kube/config apply -f k8s-example.yaml"
                 sh "sleep 120"
-                sh "kubectl get -o json service k8s-example"
+                sh "kubectl --kubeconfig=/root/.kube/config get -o json service k8s-example"
             }
         }
 
