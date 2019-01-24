@@ -78,6 +78,7 @@ podTemplate(label: label, cloud: 'kubernetes', containers: [
             stage('k8s deploy') {
                 sh "sed -i \"s/shimx\\/k8s-example/${params.REGISTRY_URL}\\/shimx\\/k8s-example:${shortGitCommit}/g\" k8s-example.yaml"
                 sh "kubectl --kubeconfig=/root/.kube/config apply -f k8s-example.yaml"
+                sh "kubectl get -o json service k8s-example"
             }
         }
 
